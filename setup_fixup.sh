@@ -36,6 +36,7 @@ check_or_setup_fixup_service() {
         # install fixup sciript in known place
         mkdir -p ${fixup_dst_dir}
         cp ${fixup_script} ${fixup_dst_dir}
+        chmod +x ${fixup_dst_dir}/ksz9897r-rev.A1-fixup.py
 
         echo "${service_file} is installed. Reboot is required to apply it."
     elif [ "disabled" == "$status" ]; then

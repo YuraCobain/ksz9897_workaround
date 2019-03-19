@@ -11,7 +11,7 @@ After=local-fs.target
 [Service]
 Type=oneshot
 
-ExecStart=/sbin/ksz9897-fixup.py --apply
+ExecStart= /etc/ksz9787_revA1_fixup/ksz9897r-rev.A1-fixup.py
 
 RemainAfterExit=yes
 
