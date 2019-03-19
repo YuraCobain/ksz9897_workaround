@@ -1,0 +1,19 @@
+[Unit]
+Description=Workaround for correct work of ksz9897
+
+Before=network-pre.target
+Wants=network-pre.target
+
+DefaultDependencies=no
+Requires=local-fs.target
+After=local-fs.target
+
+[Service]
+Type=oneshot
+
+ExecStart=/sbin/ksz9897-fixup.py --apply
+
+RemainAfterExit=yes
+
+[Install]
+WantedBy=network.target
