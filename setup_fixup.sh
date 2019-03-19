@@ -29,7 +29,7 @@ check_or_setup_fixup_service() {
 
     local status=$(systemctl list-unit-files | grep ${service_file} | awk '{print $2}')
 
-    if [ "" == "$is_exist" ]; then
+    if [ "" == "${status}" ]; then
 
         echo "${service_file} does not exit. Installing service."
 
