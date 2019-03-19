@@ -1,7 +1,5 @@
 #! /bin/bash
 
-set -o xtrace
-
 SERVICE_FILE="./workarounds/ksz9897r-rev.A1-fixup.service"
 FIXUP_FILE="./workarounds/ksz9897r-rev.A1-fixup.py"
 SERVICE_DST_DIR="/etc/systemd/system/"
@@ -34,12 +32,12 @@ check_or_setup_fixup_service() {
         echo "${service_file} does not exit. Installing service."
 
         # install service unit file
-        cp ${service_file} ${service_dst_dir}
+        cp ${service_path} ${service_dst_dir}
         systemctl enable ${service_file}
 
         # install fixup sciript in known place
         mkdir -p ${fixup_dst_dir}
-        cp ${fixup_script} ${fixup_dst_dir}
+        cp ${fixup_path} ${fixup_dst_dir}
         chmod +x ${fixup_dst_dir}/${fixup_file}
 
         echo "${service_file} is installed. Reboot is required to apply it."
