@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -o xtrace
+
 SERVICE_FILE="./workarounds/ksz9897r-rev.A1-fixup.service"
 FIXUP_FILE="./workarounds/ksz9897r-rev.A1-fixup.py"
 SERVICE_DST_DIR="/etc/systemd/system/"
@@ -18,25 +20,27 @@ check_or_install_pkg() {
 }
 
 check_or_setup_fixup_service() {
-    local service_file=$1
-    local fixup_script=$2
+    local service_path=$1
+    local fixup_path=$2
     local service_dst_dir=$3
     local fixup_dst_dir=$4
+    local service_file=$(basename -- "${service_path}")
+    local fixup_file=$(basename -- "${fixup_path}")
 
-    local status=$(systemctl list-unit-files | grep $service_template | awk '{print $2}')
+    local status=$(systemctl list-unit-files | grep ${service_file} | awk '{print $2}')
 
     if [ "" == "$is_exist" ]; then
 
         echo "${service_file} does not exit. Installing service."
 
         # install service unit file
-        cp ${service_file} $service_dst_dir
+        cp ${service_file} ${service_dst_dir}
         systemctl enable ${service_file}
 
         # install fixup sciript in known place
         mkdir -p ${fixup_dst_dir}
         cp ${fixup_script} ${fixup_dst_dir}
-        chmod +x ${fixup_dst_dir}/ksz9897r-rev.A1-fixup.py
+        chmod +x ${fixup_dst_dir}/${service_file}
 
         echo "${service_file} is installed. Reboot is required to apply it."
     elif [ "disabled" == "$status" ]; then
